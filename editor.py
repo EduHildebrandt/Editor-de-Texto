@@ -1,5 +1,3 @@
-
-from cgitb import text
 from tkinter import *
 from tkinter import filedialog as FileDialog
 from io import open
@@ -24,20 +22,39 @@ def abrir():
         texto.delete(1.0, 'end')
         texto.insert('insert', contenido)
         archivo.close()
-        root.title(ruta + " - Editor de TEXTOOOO")
+        root.title(ruta + " - Editor de TEXTO")
 
 def guardar():
     global ruta
     mensaje.set("Guardar Archivo")
     if ruta != "":
-        contenido = text
+        contenido = texto.get(1.0,'end-1c')
+        fichero = open(ruta, 'w+')
+        fichero.write(contenido)
+        fichero.close()
+        mensaje.set("El Archivo se ha guardado con exito")
+    else:
+        guardar_como()
+
 
 def guardar_como():
+    global rura
     mensaje.set("Guardar Archivo como...")
+    fichero = FileDialog.asksaveasfile(title="Guardar Archivo", mode='w', defaultextension=".txt")
+    if fichero is not None:
+        ruta = fichero.name
+        contenido = texto.get(1.0,'end-1c')
+        fichero = open(ruta, 'w+')
+        fichero.write(contenido)
+        fichero.close()
+        mensaje.set("El Archivo se ha guardado con exito")
+    else:
+        mensaje.set("Guardado cancelado")
+        ruta = ""
 
 #Configuración de la raiz
 root = Tk()
-root.title("Editor de TEXTOOOO")
+root.title("Editor de TEXTO")
 
 
 #Menu superior
